@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { deleteMethod, getMethod } from '../../API/GetPostsApi';
+import { deleteMethod, getMethod } from '../../API/ApiMethods';
 import { useEffect } from 'react';
 import './GetApiData.css'
 
