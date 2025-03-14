@@ -1,0 +1,23 @@
+.card-box{
+    box-shadow: -1px -1px 2.9px wheat;
+    padding: 1rem;
+}
+
+/* Form Css */
+
+form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+form input{
+    padding: 5px;
+    margin: 5px;
+}
+
+form button {
+    padding: 4px 8px;
+    border-radius: 2px;
+}

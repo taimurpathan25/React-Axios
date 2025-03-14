@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { deleteMethod, getMethod } from '../../API/ApiMethods';
 import { useEffect } from 'react';
-import './GetApiData.css'
+import './AllPosts.css';
+import Form from './Form';
 
-const GetApiData = () => {
+const AllPosts = () => {
   const [getApiData, setGetApiData] = useState([]);
   const getData = async () => {
     const response = await getMethod();
@@ -15,6 +16,7 @@ const GetApiData = () => {
     getData();
   }, [])
 
+  // For Deleting the Post
   const handleDeletePost = async (id) => {
    const res = await deleteMethod(id)
    console.log(res);
@@ -34,14 +36,20 @@ const GetApiData = () => {
   }
 
   return (
+<>
+    <section>
+      <Form AllPostApiData={getApiData} setAllPostApiData={setGetApiData}/>
+    </section>
+
     <section className='section-post'>
         <div className="row">
       <div className="grid-container">
         {
-          getApiData.map((currElement)=>{
+          getApiData.map((currElement,index)=>{
             const {id, title, body} = currElement; // Destructuring the Data
             return (
-              <div className="col-md-4 card-box" key={id}>
+              <div className="col-md-4 card-box" key={index}>
+                <p><b>Id :</b> {id}</p>
               <p><b>Title :</b> {title}</p>
               <p><b>Body :</b> {body}</p>
               <div className="btns">
@@ -55,8 +63,9 @@ const GetApiData = () => {
         </div>
         </div>
     </section>
+    </>
   )
 }
 
-export default GetApiData
+export default AllPosts;
 

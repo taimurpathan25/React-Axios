@@ -1,6 +1,6 @@
 
 import './App.css'
-import GetApiData from './components/GetApiData/GetApiData'
+import AllPosts from './components/AllAPIPosts/AllPosts'
 import Medicine from './Pages/Medicine'
 
 
@@ -9,7 +9,7 @@ function App() {
   return (
     <>
     <section className='main-section'>
-    <GetApiData/>
+    <AllPosts/>
     {/* <Medicine/> */}
     </section>
     </>
