@@ -4,8 +4,13 @@ import { useEffect } from 'react';
 import './AllPosts.css';
 import Form from './Form';
 
+// Icons
+import { FaEdit } from "react-icons/fa";
+import { RiDeleteBin2Fill } from "react-icons/ri";
+
 const AllPosts = () => {
   const [getApiData, setGetApiData] = useState([]);
+  const [UpdateApiData, setUpdateApiData] = useState({}) // state for Updating Data
   const getData = async () => {
     const response = await getMethod();
     console.log(response.data);
@@ -32,13 +37,17 @@ const AllPosts = () => {
    } catch (error) {
     console.log(error)
    }
-   
   }
+
+//  Function For Update Post
+const handleUpdatePost = (currElement) => {
+  setUpdateApiData(currElement)
+} 
 
   return (
 <>
     <section>
-      <Form AllPostApiData={getApiData} setAllPostApiData={setGetApiData}/>
+      <Form AllPostApiData={getApiData} setAllPostApiData={setGetApiData} AllUpdateApiData={UpdateApiData} setAllUpdateApiData={setUpdateApiData}/>
     </section>
 
     <section className='section-post'>
@@ -53,8 +62,8 @@ const AllPosts = () => {
               <p><b>Title :</b> {title}</p>
               <p><b>Body :</b> {body}</p>
               <div className="btns">
-              <button style={{background:'green', margin:'10px'}}>Edit</button>
-              <button style={{background:'red', margin:'10px'}} onClick={()=>handleDeletePost(id)}>Delete</button>
+              <button style={{background:'#adad29', margin:'10px', color:'#fff'}} onClick={()=>handleUpdatePost(currElement)}><FaEdit /></button>
+              <button style={{background:'#fd2f00', margin:'10px', color:'#fff'}} onClick={()=>handleDeletePost(id)}><RiDeleteBin2Fill /></button>
               </div>
         </div>
             )

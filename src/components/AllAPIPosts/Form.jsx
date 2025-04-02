@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { postMethod } from '../../API/ApiMethods';
+import React, { useEffect, useState } from 'react'
+import { postMethod, updateMethod } from '../../API/ApiMethods';
 
-const Form = ({AllPostApiData,setAllPostApiData}) => {
+const Form = ({AllPostApiData,setAllPostApiData, AllUpdateApiData, setAllUpdateApiData}) => {
     const [addData,setAddData] = useState({
         title:"",
         body:""
@@ -20,7 +20,7 @@ const Form = ({AllPostApiData,setAllPostApiData}) => {
         })
     }
 
-    // Adding New Post
+    // Add the New Post
     const addNewPost = async () => {
       const res = await postMethod(addData);
       console.log(res)
@@ -33,12 +33,50 @@ const Form = ({AllPostApiData,setAllPostApiData}) => {
         console.log(error)
     }
     }
+    
+    // Update the Edit Button 
+    let isEmpty = Object.keys(AllUpdateApiData).length == 0;
+    
+    // Get the Updated Data and Add into Input Field
+    useEffect(()=>{
+        AllUpdateApiData && setAddData ({title:AllUpdateApiData.title || "", body:AllUpdateApiData.body || ""})
+    },[AllUpdateApiData])
 
-    // handle Form
+
+    // Update Post Data Function
+    const updatePostData = async () => {
+        try {
+            const resData = await updateMethod(AllUpdateApiData.id, addData);
+            console.log(resData)
+
+            setAllPostApiData((prev) => {
+                // console.log(prev)
+                return prev.map((curElement) => {
+                    return curElement.id === AllUpdateApiData.id ? resData.data : curElement;
+                })
+            })
+            setAllUpdateApiData({title:'',body:''})
+            setAllUpdateApiData({})
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // handle Form Submission
     const handleFormSubmit = (event) => {
         event.preventDefault()
-        addNewPost()
+        const action = event.nativeEvent.submitter.value;
+        if (action==='Add') {
+            addNewPost()
+        } else if (action==='Edit'){
+            updatePostData()
+        }
+        // isEmpty ? addNewPost() : updatePostData()
     }
+
+
+    
 
   return (
     <section>
@@ -65,7 +103,7 @@ const Form = ({AllPostApiData,setAllPostApiData}) => {
                 value={addData.body}
                 onChange={handleInputChange}/>
             </div>
-            <button type='submit'>Add Post</button>
+            <button type='submit' value={isEmpty?'Add':'Edit'}>{isEmpty?'Add':'Edit'}</button>
         </form>
     </section>
   )
